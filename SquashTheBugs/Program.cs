@@ -36,7 +36,7 @@ namespace SquashTheBugs
             {
                 // declare string to hold all numbers
                 //string allNumbers = null;
-                //allNumber string should be declared outside the loop
+                //Run-time error- allNumber string should be declared outside the loop
 
                 // output explanation of calculation
                 //Console.Write(i + "/" + i - 1 + " = ");
@@ -53,6 +53,7 @@ namespace SquashTheBugs
                 // increment the counter
                 //i = i + 1;
                 //extra incremental function
+                //Logical Error because with this code only odd values will be printed
             }
 
             // output all numbers which have been processed
