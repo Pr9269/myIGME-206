@@ -17,9 +17,11 @@ namespace SquashTheBugs
         {
             // declare int counter
             //int i = 0
-            //missing the semicolon ';'
+            //Syntax Error - was missing the semicolon ';'
+            
 
             //int i = 0;
+            //Run-time error
             //made the i variable a double integer type variable to handle the exception of 1/0
             double i = 0;
 
@@ -28,16 +30,17 @@ namespace SquashTheBugs
 
             // loop through the numbers 1 through 10
             //for (i = 1; i < 10; ++i)
-            //Chance < to <= to include the 10 in the loop
+            //Logical Error
+            //Change < to <= to include the 10 in the loop
             for (i = 1; i <= 10; ++i)
             {
                 // declare string to hold all numbers
                 //string allNumbers = null;
-                //allNumber string should be declared outside the loop
+                //Run-time error- allNumber string should be declared outside the loop
 
                 // output explanation of calculation
                 //Console.Write(i + "/" + i - 1 + " = ");
-                //output expression of the calculation was missing brackets
+                //Syntax Error - output expression of the calculation was missing brackets
                 Console.Write(i + " / (" + i + "- 1)" + " = ");
 
                 // output the calculation based on the numbers
@@ -50,11 +53,12 @@ namespace SquashTheBugs
                 // increment the counter
                 //i = i + 1;
                 //extra incremental function
+                //Logical Error because with this code only odd values will be printed
             }
 
             // output all numbers which have been processed
             //Console.WriteLine("These numbers have been processed: " allNumbers);
-            //Missing + before the variable
+            //Syntax Error - Missing + before the variable
             Console.WriteLine("These numbers have been processed: " + allNumbers);
         }
     }
