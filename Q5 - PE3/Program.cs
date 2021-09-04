@@ -11,15 +11,15 @@ namespace Q5___PE3
         static void Main(string[] args)
         {         
             Console.WriteLine("Enter the first number : ");
-            float a = Convert.ToInt32(Console.ReadLine());
+            double a = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter the second number : ");
-            float b = Convert.ToInt32(Console.ReadLine());
+            double b = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter the third number : ");
-            float c = Convert.ToInt32(Console.ReadLine());
+            double c = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter the forth number : ");
-            float d = Convert.ToInt32(Console.ReadLine());
+            double d = Convert.ToInt32(Console.ReadLine());
 
-            float e = a * b * c * d;
+            double e = a * b * c * d;
             Console.WriteLine("The product of all 4 numbers are : " + e);
         }
     }
