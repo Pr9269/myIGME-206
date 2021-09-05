@@ -14,7 +14,7 @@ namespace PE4_FLOWCONTROL
             double var1 = 0;
             double var2 = 0;
 
-            while(!xNumber)
+            while (!xNumber)
             {
                 Console.Write("Enter the first number : ");
                 var1 = Convert.ToDouble(Console.ReadLine());
@@ -32,7 +32,7 @@ namespace PE4_FLOWCONTROL
                     Console.WriteLine("Please input the numbers again");
                 }
             }
-            
+
         }
     }
 }

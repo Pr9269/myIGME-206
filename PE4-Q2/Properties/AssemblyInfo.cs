@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PE4_FLOWCONTROL")]
+[assembly: AssemblyTitle("PE4-Q2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PE4_FLOWCONTROL")]
+[assembly: AssemblyProduct("PE4-Q2")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("314323bf-5502-4a8e-a597-930b4c3352a6")]
+[assembly: Guid("a0b77fa4-1107-46d5-b4d3-c87d55e28d6c")]
 
 // Version information for an assembly consists of the following four values:
 //
