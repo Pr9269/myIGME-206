@@ -21,18 +21,17 @@ namespace PE4_FLOWCONTROL
                 Console.Write("Enter the second number : ");
                 var2 = Convert.ToDouble(Console.ReadLine());
 
-                if (var1 > 10 ^ var2 > 10)
+                if (var1 <= 10 || var2 <= 10)
                 {
-                    Console.WriteLine("One of the values is greater than 10");
+                    Console.WriteLine("Numbers are accepted");
                     xNumber = true;
                 }
                 else
                 {
-                    Console.WriteLine("Either both values are less or greater than 10");
+                    Console.WriteLine("Both the numbers are greater than 10");
                     Console.WriteLine("Please input the numbers again");
                 }
             }
-
         }
     }
 }
