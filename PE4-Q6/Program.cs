@@ -18,15 +18,76 @@ namespace Mandelbrot
         /// arguments passed from the console window
         /// </param>
 
+        //Author - Parth Rustagi
+        //Purpose - Taking the values of the coordinates for the pattern from the user 
         [STAThread]
         static void Main(string[] args)
         {
+            //Defining variables for starting, ending, and difference for Imaginary Coordinates
+            double sImageCoord = 0; 
+            double eImageCoord = 0;
+            double dImageCoord = 0;
+
+            //Defining variables for starting, ending, and difference for Real Coordinates
+            double sRealCoord = 0;
+            double eRealCoord = 0;
+            double dRealCoord = 0;
+
+            //Defining a bool variable for the while loop so that user doesn't enter invalid details
+            bool bImageCoord = false;
+            Console.WriteLine("Enter the values for the start and end for the Imaginary coordinates");
+
+            //Defining the loop so if the user enters wrong values for the coordinates then he can enter it again
+            while (!bImageCoord)
+            {
+                Console.Write("Enter the starting value : ");
+                sImageCoord = Convert.ToDouble(Console.ReadLine()); //Taking input from the user and converting it into a double
+
+                Console.Write("Enter the ending value : ");
+                eImageCoord = Convert.ToDouble(Console.ReadLine()); //Taking input from the user and converting it into a double
+
+                if (sImageCoord > eImageCoord)
+                {
+                    bImageCoord = true; //To exit the loop if the values are correct
+                }
+                else
+                {
+                    Console.WriteLine("Error - Please enter a starting value that is higher than the ending value");
+                }
+            }
+
+            //Defining a bool variable for the while loop so that user doesn't enter invalid details
+            bool bRealCoord = false;
+            Console.WriteLine("Enter the values for the start and end for the Real coordinates");
+            
+            //Defining the loop so if the user enters wrong values for the coordinates then he can enter it again
+            while(!bRealCoord)
+            {
+                Console.Write("Enter the starting value : ");
+                sRealCoord = Convert.ToDouble(Console.ReadLine()); //Taking input from the user and converting it into a double
+
+                Console.Write("Enter the ending value : ");
+                eRealCoord = Convert.ToDouble(Console.ReadLine()); //Taking input from the user and converting it into a double
+
+                if (sRealCoord < eRealCoord)
+                {
+                    bRealCoord = true; //To exit the loop if the values are correct
+                }
+                else
+                {
+                    Console.WriteLine("Error - Please enter a ending value that is higher than the starting value");
+                }
+            }
+
+            dImageCoord = (sImageCoord - eImageCoord) / 48; //To fit the imaginary coordinates pattern in the space
+            dRealCoord = (sRealCoord - eImageCoord) / 80; //To fit the real coordinates pattern in the space
+
             double realCoord, imagCoord;
             double realTemp, imagTemp, realTemp2, arg;
             int iterations;
-            for (imagCoord = 1.2; imagCoord >= -1.2; imagCoord -= 0.05)
+            for (imagCoord = sImageCoord; imagCoord >= eImageCoord; imagCoord -= dImageCoord)
             {
-                for (realCoord = -0.6; realCoord <= 1.77; realCoord += 0.03)
+                for (realCoord = sRealCoord; realCoord <= eRealCoord; realCoord += dRealCoord)
                 {
                     iterations = 0;
                     realTemp = realCoord;
@@ -59,7 +120,7 @@ namespace Mandelbrot
                 }
                 Console.Write("\n");
             }
-
         }
     }
 }
+
