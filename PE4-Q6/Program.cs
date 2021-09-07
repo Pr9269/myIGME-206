@@ -26,12 +26,12 @@ namespace Mandelbrot
             //Defining variables for starting, ending, and difference for Imaginary Coordinates
             double sImageCoord = 0; 
             double eImageCoord = 0;
-            double dImageCoord = 0;
+            double dImageCoord;
 
             //Defining variables for starting, ending, and difference for Real Coordinates
             double sRealCoord = 0;
             double eRealCoord = 0;
-            double dRealCoord = 0;
+            double dRealCoord;
 
             //Defining a bool variable for the while loop so that user doesn't enter invalid details
             bool bImageCoord = false;
@@ -80,7 +80,7 @@ namespace Mandelbrot
             }
 
             dImageCoord = (sImageCoord - eImageCoord) / 48; //To fit the imaginary coordinates pattern in the space
-            dRealCoord = (sRealCoord - eImageCoord) / 80; //To fit the real coordinates pattern in the space
+            dRealCoord = (eRealCoord - sRealCoord) / 80; //To fit the real coordinates pattern in the space
 
             double realCoord, imagCoord;
             double realTemp, imagTemp, realTemp2, arg;
