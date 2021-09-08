@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace PE6_NUMBER_SEARCH
 {
+    //Class Program
     //Author - Parth Rustagi
-    //purpose - To generate a random number and let the user guess it.
+    //purpose - Number Guessing Game
     class Program
     {
+        //Method Main
+        //Purpose: To generate a random number with Random() function
+        //         and let the user guess it within 8 tries.
+
+
         static void Main(string[] args)
         {
             //generating random number and storing it in a variable
@@ -22,11 +28,14 @@ namespace PE6_NUMBER_SEARCH
 
             //To store the number user is going to input
             double searchNumber = 0;
+            string inputNumber = "null";
 
             //bool variable to keep the loop running
             bool element = false;
-
-            while (xCounter <= 8) //While loop runs only 8 time. That is the total number of attempts a user have.
+            
+            Console.WriteLine("Remember you only have 8 attempts.");
+            
+            while (xCounter <= 8) //While loop runs only 8 time. That is the total number of attempts a user will have.
             {
                 if (xCounter == 8)
                 {
@@ -36,8 +45,18 @@ namespace PE6_NUMBER_SEARCH
 
                 while (!element)
                 {
+                    Console.WriteLine("Please enter a number between 0 and 100");
                     Console.Write("Enter your guess: ");
-                    searchNumber = Convert.ToDouble(Console.ReadLine());
+                    inputNumber = Console.ReadLine();
+                    try
+                    {
+                        searchNumber = Double.Parse(inputNumber);
+                    }
+
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Non-numeric input detected, please try again");
+                    }
 
                     if (searchNumber >= 0 && searchNumber <= 100) //To check if the number is within the limits or not
                     {
