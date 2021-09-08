@@ -48,6 +48,8 @@ namespace PE6_NUMBER_SEARCH
                     Console.WriteLine("Please enter a number between 0 and 100");
                     Console.Write("Enter your guess: ");
                     inputNumber = Console.ReadLine();
+
+                    //To check if the input is not non-numeric
                     try
                     {
                         searchNumber = Double.Parse(inputNumber);
