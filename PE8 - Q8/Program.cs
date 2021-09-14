@@ -15,7 +15,6 @@ namespace PE8___Q8
             Console.Write("Enter a string: ");
             str = Console.ReadLine();
             str = str.ToLower();
-
             Console.WriteLine("The resulting string is :\n " + str.Replace("no", "yes"));
         }
     }
