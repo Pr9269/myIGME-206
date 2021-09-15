@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PE9___Q2
+namespace PE9___Q3
 {
     //Author: Parth Rustagi
     //Purpose: To declare a delegate function to impersonate Read function
