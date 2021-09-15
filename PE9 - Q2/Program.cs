@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PE9___Q2
+{
+    class Program
+    {
+        delegate string readlinefunctionDelegate();
+        static void Main(string[] args)
+        {
+            readlinefunctionDelegate Rline = new readlinefunctionDelegate(Console.ReadLine);
+            Console.Write("Enter a string: ");
+            string newString = Rline();
+            Console.WriteLine("String entered by you was: " + newString);
+        }
+    }
+}
