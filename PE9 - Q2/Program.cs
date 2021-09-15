@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace PE9___Q2
 {
+    //Author: Parth Rustagi
+    //Purpose: To declare a delegate function to impersonate Read function
     class Program
     {
         delegate string readlinefunctionDelegate();
+
+        //Main Function
+        //Purpose: Using the declared delegate taking an input from user and then displaying it. 
         static void Main(string[] args)
         {
             readlinefunctionDelegate Rline = new readlinefunctionDelegate(Console.ReadLine);
