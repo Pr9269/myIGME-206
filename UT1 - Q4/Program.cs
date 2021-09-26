@@ -5,8 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
+
+//Author: Parth Rustagi
+//Purpose: NumberQuiz
 namespace UT1___Q4
 {
+    //Main Program
+    //Author:Parth Rustagi
     class Program
     {
         static Timer timer;
