@@ -25,6 +25,7 @@ namespace UT1___Q4
             AnswersArray[2] = "What do you mean? African or European swallow?";
             string RestartGame;
             bool ReplayGame = false;
+            string questionNumberEntered = 0;
 
             timer = new Timer(5000.0);
             timer.Elapsed += new ElapsedEventHandler(TimesUp);
@@ -34,8 +35,19 @@ namespace UT1___Q4
                 do
                 {
                     Console.Write("Choose your question (1-3): ");
-                }
-                while (!int.TryParse(Console.ReadLine(), out QuestionChose) || QuestionChose < 1 || QuestionChose > 3);
+
+                    try
+                    {
+                        questionNumberEntered = Console.ReadLine();
+                        QuestionChose = Convert.ToInt32(questionNumberEntered);
+                    }
+
+                    catch
+                    {
+                        continue;
+                    }
+                }               
+                while (QuestionChose < 1 || QuestionChose > 3);
                 
                 Console.WriteLine("You have 5 seconds to answer the following question:");
                 Console.WriteLine(QuestionsArray[QuestionChose - 1]);
