@@ -6,6 +6,9 @@ using System.IO;
 //Purpose: UT1 -Q1
 namespace UT1___Q1
 {
+    //Main Program
+    //Author: Parth Rustagi
+    //Purpose: To edit and add division question
     class Program
     {
         static void Main()
