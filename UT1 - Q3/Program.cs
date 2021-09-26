@@ -10,16 +10,16 @@ namespace UT1___Q3
     //Purpose: To declare a delegate function to impersonate Read function
     class Program
     {
-        delegate string readlinefunctionDelegate();
+        delegate string delegateReadLineFunction();
 
         //Main Function
         //Purpose: Using the declared delegate taking an input from user and then displaying it. 
         static void Main(string[] args)
         {
-            readlinefunctionDelegate Rline = new readlinefunctionDelegate(Console.ReadLine);
-            Console.Write("Enter a string: ");
-            string newString = Rline();
-            Console.WriteLine("String entered by you was: " + newString);
+            delegateReadLineFunction ReadLinedelegateline = new delegateReadLineFunction(Console.ReadLine);
+            Console.Write("Please enter a string: ");
+            string abcsd = ReadLinedelegateline();
+            Console.WriteLine("Your String: " + abcsd);
         }
     }
 }
