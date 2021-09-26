@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//Author: Parth Rustagi
 namespace UT1___Q2
 {
+    //Main Program
+    //Author: Parth Rustagi
     class Program
     {
         // the definition of the delegate function data type
