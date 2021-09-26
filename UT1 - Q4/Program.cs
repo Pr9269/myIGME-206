@@ -84,7 +84,6 @@ namespace UT1___Q4
             TimeComplete = true;
             Console.WriteLine("Time's up!");
             Console.WriteLine("The answer is: " + AnswersArray[QuestionChose - 1]);
-            Console.WriteLine("Please press enter.");
         }
     }
 }
