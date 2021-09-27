@@ -6,14 +6,19 @@ using System.Threading.Tasks;
 
 namespace UT1___Q13
 {
+
+    //Struct Employee
     struct employee
     {
         public string sName;
         public double dSalary;
     }
 
+    //Author: Parth Rustagi
+    //Purpose: To check the name and if it matches then increase the salary
     class Program
     {
+
         static bool GiveRaise(employee e)
         // Function to increase Salary
         {
@@ -28,6 +33,9 @@ namespace UT1___Q13
             }
         }
 
+
+        //Main Function
+        //Purpose: To ask for the user name and then compare it with the GiveRaise Function
         static void Main(string[] args)
         {
             employee Employee1;
