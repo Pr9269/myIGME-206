@@ -16,7 +16,6 @@ namespace UT1____Q12
         {
             if(name.ToLower() == "parth")
             {
-                salary += 19999.99;
                 return true;
             }
 
@@ -38,6 +37,7 @@ namespace UT1____Q12
 
             if(GiveRaise(sName, ref dSalary))
             {
+                dSalary += 19999.99;
                 Console.WriteLine("Congratulations your salary has been increased");
                 Console.WriteLine("Your new salary is: " + dSalary);
             }
