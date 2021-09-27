@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace UT1___Q14
 {
+    //Author: Parth Rustagi
+    //Purpose: BugSquash Game
     class Program
     {
+        //Main program
+        //Purpose: Asking the user for input base and its exponential power
         static void Main(string[] args)
         {
             string sNumber;
