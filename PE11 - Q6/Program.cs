@@ -11,13 +11,12 @@ namespace PE11___Q6
     {
         static void Main(string[] args)
         {
-            AddPassenger(new Compact());
-            AddPassenger(new SUV());
-            ReadKey();
+            AddPassenger(new Class1.Compact());
+            AddPassenger(new Class1.SUV());
         }
-        static void AddPassenger(IPassengerCarrier Vehicle)
+        static void AddPassenger(Class1.IPassengerCarrier Vehicle)
         {
-            WriteLine(Vehicle.ToString());
+            Console.WriteLine(Vehicle.ToString());
         }
     }
 }
