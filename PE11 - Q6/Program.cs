@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PE11___Q5;
 
-namespace Traffic
+namespace PE11___Q6
 {
     class Program
     {
