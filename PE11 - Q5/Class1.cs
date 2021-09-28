@@ -4,43 +4,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PE11___Q5
+namespace Vehicles
 {
     public class Class1
     {
-        public virtual void LoadPassenger() { }
-
-        [+A:Vehicle|+LoadPassenger():v]
-        [+A:Car| | ]
-        [+I:IPassengerCarrier| |LoadPassenger()]
-        [+I:IHeavyLoaderCarrier| | ]
-        [+A:Train| | ]
-
-        [+Compact| | ]
-        [+SUV| | ]
-        [+Pickup| | ]
-        [+PassengerTrain| | ]
-        [+FreightTrain| | ]
-        [+424DoubleBogey| | ]
-
-        [+A:Vehicle] <- [+A:Car]
-        [+A:Vehicle] <- [+A:Train]
-
-        [+A:Car] <- [+Compact]
-        [+A:Car] <- [+SUV]
-        [+A:Car] <- [+Pickup]
-
-        [+A:Train] <- [+FreightTrain]
-        [+A:Train] <- [+424DoubleBogey]
-        [+A:Train] <- [+PassengerTrain]
-
-        [+I:IPassengerCarrier] ^ [+Compact]
-        [+I:IPassengerCarrier] ^ [+SUV]
-        [+I:IPassengerCarrier] ^ [+Pickup]
-        [+I:IPassengerCarrier] ^ [+PassengerTrain]
-
-        [+I:IHeavyLoaderCarrier] ^ [+Pickup]
-        [+I:IHeavyLoaderCarrier] ^ [+FreightTrain]
-        [+I:IHeavyLoaderCarrier] ^ [+424DoubleBogey]
+        public abstract class Vehicle
+        {
+        }
+        public abstract class Car : Vehicle
+        {
+        }
+        public abstract class Train : Vehicle
+        {
+        }
+        public interface IPassengerCarrier
+        {
+            public virtual void LoadPassenger() { }
+        }
+        public interface IHeavyLoadCarrier
+        {
+        }
+        public class SUV : Car, IPassengerCarrier
+        {
+        }
+        public class Pickup : Car, IPassengerCarrier, IHeavyLoadCarrier
+        {
+        }
+        public class Compact : Car, IPassengerCarrier
+        {
+        }
+        public class PassengerTrain : Train, IPassengerCarrier
+        {
+        }
+        public class FreightTrain : Train, IHeavyLoadCarrier
+        {
+        }
+        public class T424DoubleBogey : Train, IHeavyLoadCarrier
+        {
+        }
     }
 }
