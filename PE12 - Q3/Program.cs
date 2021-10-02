@@ -8,7 +8,7 @@ namespace PE12___Q3
 {
     //Author: Parth Rustagi
     //Purpose: To derive a class from base class and call one of its string
-    class MyClass
+    public class MyClass
     {
         protected string myString;
         public string ABC
