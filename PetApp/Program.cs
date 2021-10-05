@@ -102,27 +102,27 @@ namespace PetApp
 
         public override void Eat()
         {
-            
+            Console.WriteLine(Name + "Ate his food");   
         }
 
         public override void Play()
         {
-
+            Console.WriteLine(Name + "plays with his toys");
         }
 
         public void Bark()
         {
-
+            Console.WriteLine(Name + "barks at the neighbors");
         }
 
         public void NeedWalk()
         {
-
+            Console.WriteLine(Name + "needs to go for a walk");
         }
 
         public override void GotoVet()
         {
-
+            Console.WriteLine(Name + "doesn't like to vet");
         }
 
         public Dog(string szlicense, string szName, int nAge) : base(szName, nAge)
