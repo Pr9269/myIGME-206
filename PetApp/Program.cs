@@ -111,7 +111,10 @@ namespace PetApp
 
         }
 
-        public Dog(string szlicense, string szName, int nAge) : base(szName, nAge);
+        public Dog(string szlicense, string szName, int nAge) : base(szName, nAge)
+        {
+
+        }
 
     }
 
