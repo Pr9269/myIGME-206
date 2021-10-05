@@ -17,6 +17,18 @@ namespace PetApp
 
         public abstract void GotoVet();
 
+        public string Name
+        {
+            get
+            {
+                return Name;
+            }
+            set
+            {
+                Name = value;
+            }
+        }
+
         public Pet()
         {
 
@@ -56,29 +68,31 @@ namespace PetApp
 
     public class Cat : Pet, ICat
     {
+        Cat cat = new Cat();
+
         public override void Eat()
         {
-
+            Console.WriteLine(cat.Name + "ate an apple");
         }
 
         public override void Play()
         {
-
+            Console.WriteLine(cat.Name + "playing with the woolen ball");
         }
 
         public void Purr()
         {
-
+            Console.WriteLine(cat.Name + "purrs silently");
         }
 
         public void Scratch()
         {
-
+            Console.WriteLine(cat.Name + "scratches violently");
         }
 
         public override void GotoVet()
         {
-
+            Console.WriteLine(cat.Name + "go to vet for checkup");
         }
     }
 
@@ -88,7 +102,7 @@ namespace PetApp
 
         public override void Eat()
         {
-
+            
         }
 
         public override void Play()
@@ -115,7 +129,6 @@ namespace PetApp
         {
 
         }
-
     }
 
     public class Pets
