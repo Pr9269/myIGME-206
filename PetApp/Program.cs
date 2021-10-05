@@ -153,15 +153,12 @@ namespace PetApp
 
             set
             {
-                // if the index is less than the number of list elements
                 if (nPetEl < petList.Count)
                 {
-                    // update the existing value at that index
                     petList[nPetEl] = value;
                 }
                 else
                 {
-                    // add the value to the list
                     petList.Add(value);
                 }
             }
@@ -213,10 +210,9 @@ namespace PetApp
                 {
                     if (rand.Next(0, 2) == 0)
                     {
-                        // add a dog
+                        
                         string name, inputAge, license;
                         int age;
-                        //ask for dog information
                         Console.Write("Dog's Name => ");
                         name = Console.ReadLine();
                         do
@@ -234,9 +230,7 @@ namespace PetApp
                     }
                     else
                     {
-                        // else add a cat
                         cat = new Cat();
-                        //ask for cat information
                         Console.Write("Cat's Name => ");
                         cat.name = Console.ReadLine();
                         do
@@ -250,7 +244,6 @@ namespace PetApp
                 }
                 else
                 {
-                    // choose a random pet from pets and choose a random activity for the pet to do
                     int ranPet = rand.Next(0, pets.Count);
                     thisPet = pets[ranPet];
                     if (thisPet == null)
