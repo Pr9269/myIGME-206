@@ -34,7 +34,7 @@ namespace UT2___Q9
 
         public void Play()
         {
-
+            Console.WriteLine("Acoustic guitar is playing");
         }
 
         public void Party()
@@ -54,7 +54,7 @@ namespace UT2___Q9
 
         public void Play()
         {
-
+            Console.WriteLine("Electric guitar is playing");
         }
     }
 
@@ -62,6 +62,23 @@ namespace UT2___Q9
     {
         static void Main(string[] args)
         {
+            Acoustic acoustic1 = new Acoustic();
+            Electric electric1 = new Electric();
+
+            MyMethod(acoustic1);
+            MyMethod(electric1);
+        }
+
+        static void MyMethod(object obj)
+        {
+            try
+            {
+                ((Acoustic)obj).Play();
+            }
+            catch
+            {
+                ((Electric)obj).Play();
+            }
         }
     }
 }
