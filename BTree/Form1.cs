@@ -239,7 +239,7 @@ namespace BTree
 
             BTree node = null;
             BTree root = null;
-            node = new BTree("HOLA", null);
+            node = new BTree("HI", null);
             root = node;
 
             node = new BTree("MY", root);
@@ -280,7 +280,7 @@ namespace BTree
             BTree root = null;
             Button3_Click(node, e);
 
-            node = new BTree("HOLA", null);
+            node = new BTree("HI", null);
             root = node;
 
             node = new BTree("MY", root);
