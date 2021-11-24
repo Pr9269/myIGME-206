@@ -232,43 +232,54 @@ namespace BTree
 
         private void Button6_Click(object sender, EventArgs e)
         {
-            // Exercise #3
-            // insert 15 random uppercase strings
-
             this.richTextBox1.Clear();
 
             BTree node = null;
             BTree root = null;
-            node = new BTree("HI", null);
+
+            int[] nodes = { 1, 5, 15, 20, 21, 22, 23, 24, 25, 30, 35, 37, 40, 55, 60 };    // add them into the tree in order
+            node = new BTree(nodes[0], root);
             root = node;
 
-            node = new BTree("MY", root);
-            node = new BTree("NAME", root);
-            node = new BTree("IS", root);
-            node = new BTree("PARTH", root);
-            node = new BTree("RUSTAGI", root);
-            node = new BTree("AND", root);
-
-            node = new BTree("I", root);
-            node = new BTree("AM", root);
-            node = new BTree("A", root);
-            node = new BTree("MASTERS", root);
-            node = new BTree("STUDENT", root);
-            node = new BTree("IN", root);
-
-            node = new BTree("GAME", root);
-            node = new BTree("DESIGN", root);
-
-            //this.richTextBox1.Clear();
-
-            //BTree node = null;
-            //BTree root = null;
-
+            for (int i = 1; i < nodes.Length; i++)
+            {
+                node = new BTree(nodes[i], root);
+            }
 
             this.richTextBox1.Text += "\n";
-            //BTree.TraverseAscending(root);
 
-            VisualizeBinaryTree visualizeBinaryTree = new VisualizeBinaryTree(root);
+            BTree.TraverseAscending(root);     // traverse in ascending order
+
+            List<int> nodelist = new List<int>(nodes);
+
+            BTree newroot = null;
+            int mid = nodes.Length / 2;
+
+            node = new BTree(nodelist[mid], newroot);
+
+            Balancedtree(mid, mid);
+
+            void Balancedtree(int x1, int x2)
+            {
+                node = new BTree(nodelist[x1], newroot);
+                if (newroot == null)
+                {
+                    newroot = node;
+                }
+                if (x2 / 2 > 0)
+                {
+                    Balancedtree((x1 - x2 + x1 - 1) / 2, x2 / 2);
+                    Balancedtree((x1 + x2 + x1 + 1) / 2, x2 / 2);
+                }
+                else
+                {
+                    node = new BTree(nodelist[x1 - 1], newroot);
+                    node = new BTree(nodelist[x1 + 1], newroot);
+                }
+            }
+
+
+            VisualizeBinaryTree visualizeBinaryTree = new VisualizeBinaryTree(newroot);
         }
 
         private void Button7_Click(object sender, EventArgs e)
