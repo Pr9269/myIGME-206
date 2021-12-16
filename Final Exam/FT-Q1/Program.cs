@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Question1_Final_gaw
+namespace FT_Q1
 {
     class Program
     {
