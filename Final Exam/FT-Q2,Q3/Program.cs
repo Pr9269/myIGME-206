@@ -102,20 +102,17 @@ namespace FT__Q2_Q3
 
     class Program
     {
-        private System.Timers.Timer aTimer;
-        private System.Timers.Timer stateInterval;
-
-        private bool winBoolean = false;
-        private bool rightBoolean = false;
-        private bool validBoolean = false;
-        
-        private int timeStarted;
-        private int timeEnded;
-        private int rounds;
 
         private static Player player;
         public static Program p;
-
+        private int timeStarted;
+        private int timeEnded;
+        private int rounds;
+        private bool winBoolean = false;
+        private bool rightBoolean = false;
+        private bool validBoolean = false;
+        private System.Timers.Timer aTimer;
+        private System.Timers.Timer stateInterval;
         private readonly object graphObj = new object();
         private readonly object validBooleanObj = new object();
 
