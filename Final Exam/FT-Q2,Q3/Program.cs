@@ -10,40 +10,128 @@ using System.Web;
 using System.Threading;
 using System.Timers;
 
-namespace Graph
+namespace FT__Q2_Q3
 {
-    //main program
+    public class Player
+    {
+        private int hp;
+        private int currentLocation;
+        private (int, int, int)[][] graph;
+
+        private int currentState;
+
+        public int CurrentState
+        {
+            get { return currentState; }
+        }
+
+        public int GetHP()
+        {
+            return hp;
+        }
+
+        public bool DecreaseHP(int num)
+        {
+            hp -= num;
+
+            if (hp <= 0)
+            {
+                return false;
+            }
+
+            else
+            {
+                return true;
+            }
+        }
+
+        public Player(int hp, (int, int, int)[][] graph, int location)
+        {
+            this.hp = hp;
+            this.graph = graph;
+            this.currentLocation = location;
+            this.currentState = 0;
+        }
+        public bool ChangeState(int state)
+        {
+            if (this.GetHP() <= 1)
+            {
+                return false;
+            }
+
+            if (state == currentState + 1)
+            {
+                currentState = state;
+                DecreaseHP(1);
+                return true;
+            }
+
+            else if (currentState == 1 || currentState == 3)
+            {
+                if (state == 0 || state == 2)
+                {
+                    currentState = state;
+                    DecreaseHP(1);
+                    return true;
+                }
+
+                else return false;
+            }
+
+            else return false;
+        }
+
+        public int CurrentLocation
+        {
+            get
+            {
+                return currentLocation;
+            }
+
+            set
+            {
+                currentLocation = value;
+            }
+        }
+
+        public void IncreaseHP(int num)
+        {
+            hp += num;
+        }
+    }
+
     class Program
     {
-        private static System.Timers.Timer aTimer;
-        private static System.Timers.Timer stateInterval;
-        private static bool bWin = false;
-        private static bool bRight = false;
-        private static bool bValid = false;
-        private static int startTime;
-        private static int endTime;
-        private static int rounds;
+        private System.Timers.Timer aTimer;
+        private System.Timers.Timer stateInterval;
+
+        private bool winBoolean = false;
+        private bool rightBoolean = false;
+        private bool validBoolean = false;
+        
+        private int timeStarted;
+        private int timeEnded;
+        private int rounds;
 
         private static Player player;
+        public static Program p;
 
-        private static readonly object graphLock = new object();
-        private static readonly object bValidLock = new object();
+        private readonly object graphObj = new object();
+        private readonly object validBooleanObj = new object();
 
-        //matrix
         private static (int Cost, int Direction)[,] mGraph = new (int, int)[,]
         {
-                //A B C D E F G H
-                /*A*/{(0,0), (1,1), (5,2), (-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1) },
-                /*B*/{(-1,-1), (-1,-1), (-1,-1), (1,2), (-1,-1),(7,2),(-1,-1),(-1,-1) },
-                /*C*/{(-1,-1), (-1,-1), (-1,-1), (0,0), (2,3), (-1,-1), (-1,-1), (-1,-1) },
-                /*D*/{(-1,-1), (1,1), (0,2), (-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1)  },
-                /*E*/{(-1,-1), (-1,-1), (2,2), (-1,-1), (-1,-1), (-1,-1), (2,0), (-1,-1) },
-                /*F*/{(-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1), (4,3) },
-                /*G*/{(-1,-1), (-1,-1), (-1,-1), (-1,-1), (2,3), (1,2), (-1,-1), (-1,-1)  },
+                //      A        B        C         D        E        F        G        H
+                /*A*/{(0,0),   (1,1),   (5,2),   (-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1) },
+                /*B*/{(-1,-1), (-1,-1), (-1,-1), (1,2),   (-1,-1), (7,2),   (-1,-1), (-1,-1) },
+                /*C*/{(-1,-1), (-1,-1), (-1,-1), (0,0),   (2,3),   (-1,-1), (-1,-1), (-1,-1) },
+                /*D*/{(-1,-1), (1,1),   (0,2),   (-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1) },
+                /*E*/{(-1,-1), (-1,-1), (2,2),   (-1,-1), (-1,-1), (-1,-1), (2,0),   (-1,-1) },
+                /*F*/{(-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1), (4,3)   },
+                /*G*/{(-1,-1), (-1,-1), (-1,-1), (-1,-1), (2,3),   (1,2),   (-1,-1), (-1,-1) },
                 /*H*/{(-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1), (-1,-1) }
         };
 
-        //list
         private static (int Room, int Cost, int State)[][] lGraph = new (int, int, int)[][]
         {
                 /*A*/new (int,int,int)[] {(1,1,1),(2,5,2) },
@@ -56,28 +144,72 @@ namespace Graph
                 /*H*/new (int,int,int)[] { }
         };
 
-        //pair of abcdefgh to 0-7
-        private static string[] rooms = { "A", "B", "C", "D", "E", "F", "G", "H" };
-        //states of rooms
-        //I use four states so that the rooms can be initialized as different "liquid"
-        //e.g. B: liquid to gas, E: liquid to ice
-        //this randomness makes the game more fun
-        //the player cannot accurately know what the state is for an original liquid room even if they track the time
-        private static string[] states = { "ice", "liquid", "gas", "liquid" };
-        //initial states
-        //I know, ugly implementation
-        //I should use a new structure for each node instead of int
-        //I just don't want to change the code a lot. So lazy ^-^
-        private static string[] initialStates = { "ice", "liquid", "gas", "ice", "liquid", "gas", "ice", "liquid" };
+        private static string[] roomNames = { "A", "B", "C", "D", "E", "F", "G", "H" };
+        private static string[] stateType = { "ice", "liquid", "gas", "liquid" };
+        private static string[] totalStates = { "ice", "liquid", "gas", "ice", "liquid", "gas", "ice", "liquid" };
 
-        private static Random random = new Random();
+        public static void ShowUI()
+        {
+            Console.WriteLine("Player HP: {0}", player.GetHP());
+            Console.WriteLine("Current State: {0}", stateType[player.CurrentState]);
+            Console.WriteLine("The room you are currently in: {0}", roomNames[player.CurrentLocation]);
 
-        //represent graph in both ways
+            (int Room, int Cost, int State)[] availableRooms = RoomsAvailable();
+            for (int i = 0; i < availableRooms.Length; i++)
+            {
+                if (availableRooms[i] != (-1, -1, -1))
+                {
+                    Console.WriteLine("You have access to {0} with cost {1}", roomNames[availableRooms[i].Room], availableRooms[i].Cost);
+                }
+            }
+        }
+
+        public static (int, int, int)[] RoomsAvailable()
+        {
+            (int Room, int Cost, int State)[] adjacentList = ((int, int, int)[])lGraph[player.CurrentLocation].Clone();
+            for (int i = 0; i < adjacentList.Length; i++)
+            {
+                if (player.GetHP() - adjacentList[i].Cost <= 0) adjacentList[i] = (-1, -1, -1);
+            }
+            return adjacentList;
+        }
+
+        public static bool RaiseQuestion()
+        {
+            string answer = "";
+            p.validBoolean = false;
+            SetTimer(15000);
+            List<TriviaResult> list = GenerateQuestions();
+            Console.WriteLine(list[0].question);
+            Console.WriteLine("Enter your answer");
+            while (!p.validBoolean)
+            {
+                answer = Console.ReadLine();
+                if (answer == "t" || answer == "f")
+                {
+                    if (answer == "t") answer = "True";
+                    else answer = "False";
+                    break;
+                }
+                Console.WriteLine("Enter valid answers: ");
+            }
+            p.aTimer.Stop();
+            p.aTimer.Dispose();
+            if (answer == list[0].correct_answer) return true;
+            else return false;
+        }
+        private static void SetTimer(int time = 5000)
+        {
+            p.aTimer = new System.Timers.Timer(time);
+            p.aTimer.Elapsed += OnTimedEvent;
+            p.aTimer.AutoReset = false;
+            p.aTimer.Enabled = true;
+        }
+
         static void Main(string[] args)
         {
-            bool bWantPlay = true;
+            bool playingBoolean = true;
 
-            //reset the lGraph to initial state
             lGraph = new (int, int, int)[][]
             {
                 /*A*/new (int,int,int)[] {(1,1,1),(2,5,2) },
@@ -92,231 +224,198 @@ namespace Graph
 
             do
             {
-                //begin the game
-                ChangeRoomStates();
-                startTime = Environment.TickCount;
-                rounds = 0;
+                ChangingStates();
+                p.timeStarted = Environment.TickCount;
+                p.rounds = 0;
 
-                Console.WriteLine("Welcome to the game!");
+                Console.WriteLine("Welcome to my World");
 
                 player = new Player(5, lGraph, 0);
 
-                //show rules
-                Console.WriteLine("There are following rooms with state ice/liquid/gas:");
-                for (int i = 0; i < initialStates.Length; i++)
-                {
-                    Console.WriteLine(rooms[i] + ": " + initialStates[i]);
-                }
-                Console.WriteLine("Room state change rules: ice -> liquid -> gas -> liquid -> ice -> liquid -> etc. Change every 1 second");
-                Console.WriteLine("Player state change rules: ice->liquid, liquid->gas, gas->liquid, or liquid->ice");
+                Console.WriteLine("There are three types of rooms with states: Ice / Liquid / Gas");
 
-                //for each turn
-                while (!bWin && player.GetHP() > 0)
+                for (int i = 0; i < totalStates.Length; i++)
                 {
-                    rounds++;
-                    Console.WriteLine("----------------------------------");
-                    //first show ui message
+                    Console.WriteLine(roomNames[i] + ": " + totalStates[i]);
+                }
+                
+                Console.WriteLine("Room state changes from -> ice -> liquid -> gas -> liquid -> ice -> liquid -> ");
+                Console.WriteLine("Player state changes from -> ice->liquid, liquid->gas, gas->liquid, or liquid->ice");
+
+                while (!p.winBoolean && player.GetHP() > 0)
+                {
+                    p.rounds++;
+                    
                     ShowUI();
 
-                    //then ask whether the player wants to leave via exit or wager their hp
-                    bValid = false;
-                    while (!bValid)
+                    p.validBoolean = false;
+                    while (!p.validBoolean)
                     {
-                        Console.WriteLine("Make a choice: leave or wager?");
-                        Console.WriteLine("     Please enter l for leave, w for wager, c for state change");
+                        Console.WriteLine("You have two choices, either Leave or Wager");
+                        Console.WriteLine("Enter c for state change, w for wager and l to leave the game");
                         string answer = Console.ReadLine();
-                        //move to another room
+
                         if (answer == "l")
                         {
-                            //ask the player which direction he wants to go
-                            int nextDirection = -1;
-                            bool bDirectionValid = false;
-                            bool bDirectionExist = false;
+                            int nextAvailableDirection = -1;
+                            bool validDirectionBoolean = false;
+                            bool exitDirectionBoolean = false;
 
-                            (int Room, int Cost, int State)[] availableRooms = FindAvailableRooms();
+                            (int Room, int Cost, int State)[] availableRooms = RoomsAvailable();
                             do
                             {
-                                Console.WriteLine("Which room do you want to go?");
+                                int i = 0;
+                                Console.WriteLine("Enter a room where you want to go");
 
-                                for (int i = 0; i < availableRooms.Length; i++)
+                                while (i < availableRooms.Length)
                                 {
                                     if (availableRooms[i] != (-1, -1, -1))
                                     {
-                                        Console.WriteLine("     Available room: {0}.", rooms[availableRooms[i].Room]);
-                                        bDirectionExist = true;
+                                        Console.WriteLine("Rooms that are available to you: {0}.", roomNames[availableRooms[i].Room]);
+                                        exitDirectionBoolean = true;
                                     }
+                                    i++;
                                 }
-                                //if no available rooms, exit
-                                if (!bDirectionExist)
+
+                                if (!exitDirectionBoolean)
                                 {
                                     Console.WriteLine("Sorry, no available rooms.");
                                     break;
                                 }
 
-                                //if has direction, continue
-                                nextDirection = Array.IndexOf(rooms, Console.ReadLine());
-                                for (int i = 0; i < availableRooms.Length; i++)
-                                {
+                                nextAvailableDirection = Array.IndexOf(roomNames, Console.ReadLine());
+
+                               while( i < availableRooms.Length )
+                               {
                                     if (availableRooms[i] != (-1, -1, -1))
                                     {
-                                        if (nextDirection == availableRooms[i].Room) bDirectionValid = true;
+                                        if (nextAvailableDirection == availableRooms[i].Room) validDirectionBoolean = true;
                                     }
-                                }
+                                    i++;
+                               }
                             }
-                            while (nextDirection < 0 || !bDirectionValid);
+                            while (nextAvailableDirection < 0 || !validDirectionBoolean);
 
-                            //move according to the direction
-                            if (!bDirectionExist) break;
-                            MoveToRoom(nextDirection, ref availableRooms);
+                            if (!exitDirectionBoolean)
+                            {
+                                break;
+                            }
+
+                            MoveToRoom(nextAvailableDirection, ref availableRooms);
                             break;
                         }
 
-                        //wager some of the hp to answer the question
                         else if (answer == "w")
                         {
-                            int wagerNum;
+                            int wagerNumber;
                             do
                             {
-                                Console.WriteLine("How much HP do you want to wager?");
+                                Console.WriteLine("Please enter the HP you want to wager");
                             }
-                            while (!int.TryParse(Console.ReadLine(), out wagerNum) || wagerNum < 0 || wagerNum > player.GetHP());
+                            while (!int.TryParse(Console.ReadLine(), out wagerNumber) || wagerNumber < 0 || wagerNumber > player.GetHP());
 
                             bool bCorrect = RaiseQuestion();
                             if (bCorrect)
                             {
-                                player.IncreaseHP(wagerNum);
-                                Console.WriteLine("Your answer is correct! Your hp has increased.");
+                                player.IncreaseHP(wagerNumber);
+                                Console.WriteLine("Conguratulations! Your answer was correct. Your hp has been increased");
                             }
                             else
                             {
-                                player.DecreaseHP(wagerNum);
-                                Console.WriteLine("Your answer is wrong! Your hp has decreased.");
+                                player.DecreaseHP(wagerNumber);
+                                Console.WriteLine("Oh NO! Your answer was incorrect. Your hp has been decreased.");
                             }
                             break;
                         }
-                        //change state of player
+
                         else if (answer == "c")
                         {
-                            bool bValidState = false;
-                            while (!bValidState)
+                            bool isStateValid = false;
+                            while (!isStateValid)
                             {
+                                int i=0;
                                 Console.WriteLine("Please input the state you want to change to: ");
                                 string tmpStateStr = Console.ReadLine();
-                                for (int i = 0; i < states.Length; i++)
+                                while(i < stateType.Length)
                                 {
-                                    if (states[i] == tmpStateStr)
+                                    if (stateType[i] == tmpStateStr)
                                     {
                                         if (player.ChangeState(i))
                                         {
-                                            bValidState = true;
+                                            isStateValid = true;
                                             break;
                                         }
                                         else
                                         {
-                                            Console.WriteLine("State change fails. Please check if the state change is valid or your hp > 1.");
+                                            Console.WriteLine("Cannot change states");
                                         }
                                     }
+
+                                    i++;
                                 }
                             }
-                            Console.WriteLine("-----------------------------------");
-                            Console.WriteLine("State change success!");
+
+                            Console.WriteLine("State changed successfully");
                             break;
                         }
+
                         else
                         {
-                            Console.WriteLine("Your input is invalid!");
-                            Console.WriteLine("----------------------");
+                            Console.WriteLine("Invalid Input");
                         }
                     }
 
-                    //check if reach the final point
-                    if (player.CurrentLocation == rooms.Length - 1)
+                    if (player.CurrentLocation == roomNames.Length - 1)
                     {
-                        bWin = true;
+                        p.winBoolean = true;
                     }
                 }
 
-                //the game ends
                 if (player.GetHP() <= 0)
                 {
-                    Console.WriteLine("You lose all the hp. Bad luck.");
+                    Console.WriteLine("You just lost all of your hp");
                 }
-                else if (bWin)
+                else if (p.winBoolean)
                 {
-                    Console.WriteLine("----------------------------------");
-                    Console.WriteLine("Congratulations! You reach the destination!");
-                    //show turns and time 
-                    endTime = Environment.TickCount;
+                    Console.WriteLine("Congratulations! You have reached the final destination");
+
+                    p.timeEnded = Environment.TickCount;
                     Console.WriteLine("You take {0} seconds and {1} rounds to reach the destination.",
-                        (endTime - startTime) / 1000,
-                        rounds);
+                        (p.timeEnded - p.timeStarted) / 1000,
+                        p.rounds);
                 }
+
                 else
                 {
                     Console.WriteLine("Bug in winning condition. check it");
                 }
 
-                //end timer
-                stateInterval.Stop();
-                stateInterval.Dispose();
+                p.stateInterval.Stop();
+                p.stateInterval.Dispose();
 
+                bool isValidPlay = false;
 
-
-                //ask if want to play again
-                bool bPlayValid = false;
-                while (!bPlayValid)
+                while (!isValidPlay)
                 {
-                    Console.WriteLine("\n----------------------------------");
-                    Console.WriteLine("Do you want to play again? y/n");
+                    Console.WriteLine("Would you like to play again?");
                     string answer = Console.ReadLine();
                     if (answer == "y")
                     {
-                        bPlayValid = true;
-                        bWantPlay = true;
-                        bWin = false;
+                        isValidPlay = true;
+                        playingBoolean = true;
+                        p.winBoolean = false;
                     }
                     else if (answer == "n")
                     {
-                        bPlayValid = true;
-                        bWantPlay = false;
+                        isValidPlay = true;
+                        playingBoolean = false;
                     }
                 }
             }
-            while (bWantPlay);
+            while (playingBoolean);
 
         }
 
-        //show ui including hp and all the rooms the player can go
-        public static void ShowUI()
-        {
-            Console.WriteLine("HP: {0}", player.GetHP());
-            Console.WriteLine("State: {0}", states[player.CurrentState]);
-            Console.WriteLine("You are in room: {0}", rooms[player.CurrentLocation]);
-            Console.WriteLine("");
-
-            (int Room, int Cost, int State)[] availableRooms = FindAvailableRooms();
-            for (int i = 0; i < availableRooms.Length; i++)
-            {
-                if (availableRooms[i] != (-1, -1, -1))
-                {
-                    Console.WriteLine("You have access to {0} with cost {1}", rooms[availableRooms[i].Room], availableRooms[i].Cost);
-                }
-            }
-            Console.WriteLine("------------------------------------");
-        }
-
-        //return available rooms
-        public static (int, int, int)[] FindAvailableRooms()
-        {
-            (int Room, int Cost, int State)[] adjacentList = ((int, int, int)[])lGraph[player.CurrentLocation].Clone();
-            for (int i = 0; i < adjacentList.Length; i++)
-            {
-                if (player.GetHP() - adjacentList[i].Cost <= 0) adjacentList[i] = (-1, -1, -1);
-            }
-            return adjacentList;
-        }
-
-        //move to corresponding room
         public static void MoveToRoom(int direction, ref (int Room, int Cost, int State)[] availableRooms)
         {
             for (int i = 0; i < availableRooms.Length; i++)
@@ -332,64 +431,47 @@ namespace Graph
 
                 }
             }
-            Console.WriteLine("---------------------------------\nYour state is not correct. Move fail.");
+            Console.WriteLine("incorrect state");
             return;
-        }
-
-        //ask and answer a question
-        public static bool RaiseQuestion()
-        {
-            string answer = "";
-            bValid = false;
-            //ask a question and wait for 15 seconds
-            SetTimer(15000);
-            List<TriviaResult> list = GenerateQuestions();
-            Console.WriteLine(list[0].question);
-            Console.WriteLine("-----Please answer t/f-----");
-            while (!bValid)
-            {
-                answer = Console.ReadLine();
-                if (answer == "t" || answer == "f")
-                {
-                    if (answer == "t") answer = "True";
-                    else answer = "False";
-                    break;
-                }
-                Console.WriteLine("-----Please input valid answers: t/f-----");
-            }
-            aTimer.Stop();
-            aTimer.Dispose();
-            //Console.WriteLine(list[0].correct_answer);
-            if (answer == list[0].correct_answer) return true;
-            else return false;
-        }
-
-        //timer for question 
-        private static void SetTimer(int time = 5000)
-        {
-            // Create a timer with a two second interval.
-            aTimer = new System.Timers.Timer(time);
-            // Hook up the Elapsed event for the timer. 
-            aTimer.Elapsed += OnTimedEvent;
-            aTimer.AutoReset = false;
-            aTimer.Enabled = true;
         }
 
         private static void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            //Console.WriteLine("The Elapsed event was raised at {0:HH:mm:ss.fff}",e.SignalTime);
-            //Console.WriteLine(source.GetType());
             if (source.GetType() == typeof(System.Timers.Timer))
             {
-                lock (bValidLock)
+                lock (p.validBooleanObj)
                 {
                     Console.WriteLine("Press Enter to continue!");
-                    bValid = true;
+                    p.validBoolean = true;
                 }
             }
         }
 
-        //generate questions
+        public static void ChangingStates()
+        {
+            p.stateInterval = new System.Timers.Timer(1000);
+
+            p.stateInterval.Elapsed += StateInterval_Elapsed;
+            p.stateInterval.AutoReset = true;
+            p.stateInterval.Enabled = true;
+        }
+
+        private static void StateInterval_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            lock (p.graphObj)
+            {
+                for (int j = 0; j < lGraph.Length; j++)
+                {
+                    (int Room, int Cost, int State)[] aList = lGraph[j];
+                    for (int i = 0; i < aList.Length; i++)
+                    {
+                        lGraph[j][i].State++;
+                        if (aList[i].State >= stateType.Length) lGraph[j][i].State = 0;
+                    }
+                }
+            }
+        }
+
         public static List<TriviaResult> GenerateQuestions()
         {
             string url = null;
@@ -418,38 +500,6 @@ namespace Graph
             }
             return trivia.results;
         }
-
-        //change state of all rooms every one second
-        public static void ChangeRoomStates()
-        {
-            stateInterval = new System.Timers.Timer(1000);
-
-            stateInterval.Elapsed += StateInterval_Elapsed;
-            stateInterval.AutoReset = true;
-            stateInterval.Enabled = true;
-        }
-
-        private static void StateInterval_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            lock (graphLock)
-            {
-                for (int j = 0; j < lGraph.Length; j++)
-                {
-                    (int Room, int Cost, int State)[] aList = lGraph[j];
-                    //Console.WriteLine("j: " + j);
-                    for (int i = 0; i < aList.Length; i++)
-                    {
-                        lGraph[j][i].State++;
-                        if (aList[i].State >= states.Length) lGraph[j][i].State = 0;
-                        //Console.Write(rooms[lGraph[j][i].Room]+" "+ states[lGraph[j][i].State]);
-                    }
-                    //Console.WriteLine();
-                }
-                //Console.WriteLine("-----------------");
-            }
-
-
-        }
     }
 
     class Trivia
@@ -467,82 +517,4 @@ namespace Graph
         public string correct_answer;
         public List<string> incorrect_answers;
     }
-
-    //player class
-    public class Player
-    {
-        private int hp;
-        private int currentLocation;
-        private (int, int, int)[][] graph;
-
-        private int currentState;
-
-        //constructor
-        public Player(int hp, (int, int, int)[][] graph, int location)
-        {
-            this.hp = hp;
-            this.graph = graph;
-            this.currentLocation = location;
-            this.currentState = 0;
-        }
-
-        public int CurrentLocation
-        {
-            get
-            {
-                return currentLocation;
-            }
-            set
-            {
-                currentLocation = value;
-            }
-        }
-
-        public int CurrentState
-        {
-            get { return currentState; }
-        }
-
-        public int GetHP()
-        {
-            return hp;
-        }
-        public bool DecreaseHP(int num)
-        {
-            hp -= num;
-            if (hp <= 0)
-            {
-                //hp += num;
-                return false;
-            }
-            else return true;
-        }
-        public void IncreaseHP(int num)
-        {
-            hp += num;
-        }
-
-        public bool ChangeState(int state)
-        {
-            if (this.GetHP() <= 1) return false;
-            if (state == currentState + 1)
-            {
-                currentState = state;
-                DecreaseHP(1);
-                return true;
-            }
-            else if (currentState == 1 || currentState == 3)
-            {
-                if (state == 0 || state == 2)
-                {
-                    currentState = state;
-                    DecreaseHP(1);
-                    return true;
-                }
-                else return false;
-            }
-            else return false;
-        }
-    }
-
 }
