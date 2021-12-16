@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FT-Q4", "FT-Q4.csproj", "{B31AA471-5A0B-4BE7-B9AF-A8C5856699DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B31AA471-5A0B-4BE7-B9AF-A8C5856699DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B31AA471-5A0B-4BE7-B9AF-A8C5856699DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B31AA471-5A0B-4BE7-B9AF-A8C5856699DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B31AA471-5A0B-4BE7-B9AF-A8C5856699DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DBBE7668-CD7F-4FD8-BF5F-18D97438013F}
+	EndGlobalSection
+EndGlobal
