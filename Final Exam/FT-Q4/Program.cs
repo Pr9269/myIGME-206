@@ -20,7 +20,7 @@ namespace FT__Q4
             public int currentLevelInteger;
             public int playerHealth;
             public string[] inventoryStringArray;
-            public string liscense_KeyStrings;
+            public string liscense_KeyString;
 
             public static Singleton Instance()
             {
